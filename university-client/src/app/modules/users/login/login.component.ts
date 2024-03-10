@@ -7,20 +7,25 @@ import { LoginModel } from '../models/login.model';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [UserService]
 })
 
 export class LoginComponent {
   user: LoginModel = new LoginModel;
 
   userForm: FormGroup = new FormGroup({
-    "name": new FormControl(this.user.name, [Validators.required]),
+    "userName": new FormControl(this.user.name, [Validators.required]),
     "password": new FormControl(this.user.password, [Validators.required])
   })
 
 
-  login(): void {
-    //const userExists = this._userService.login({ name: this.user.name, password: this.user.password })
+  login() {
+    console.log('in login function! userForm:', this.userForm.value);
+    const f = this._userService.login(this.userForm.value);
+    console.log('f = ', f);
+
+    // const userExists = this._userService.login({ name: this.user.name, password: this.user.password })
     // if (userExists) {
     //   const validPassword = this._userService.checkPassword(this.username, this.password);
     //   if (validPassword) {
@@ -33,6 +38,6 @@ export class LoginComponent {
     // }
   }
 
-  constructor(/*private _userService: UserService*/) { }
+  constructor(private _userService: UserService) { }
 }
 

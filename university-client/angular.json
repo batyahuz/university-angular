@@ -62,6 +62,9 @@
             },
             "development": {
               "buildTarget": "university-client:build:development"
+            },
+            "options": {
+              "proxyConfig": "src/proxy.config.json"
             }
           },
           "defaultConfiguration": "development"

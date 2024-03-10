@@ -1,14 +1,14 @@
 <p>login works!</p>
 <ng-container class="card" *ngIf="user">
     <div class="card-body">
-        <form [formGroup]="userForm">
+        <form [formGroup]="userForm" (submit)="login()">
             <div class="form-group form-floating mb-3">
                 <input class="form-control"
-                    [ngClass]="{'is-invalid':userForm.controls['name'].touched && userForm.controls['name'].errors}"
-                    type="text" id="name" formControlName="name" name="name" />
-                <label for="name">user name:</label>
-                <ng-container *ngIf="userForm.controls['name'].touched && userForm.controls['name'].errors">
-                    <div class="alert alert-danger" *ngIf="userForm.controls['name'].errors['required']">
+                    [ngClass]="{'is-invalid':userForm.controls['userName'].touched && userForm.controls['userName'].errors}"
+                    type="text" id="userName" formControlName="userName" name="userName" />
+                <label for="userName">user name:</label>
+                <ng-container *ngIf="userForm.controls['userName'].touched && userForm.controls['userName'].errors">
+                    <div class="alert alert-danger" *ngIf="userForm.controls['userName'].errors['required']">
                         This field is required</div>
                 </ng-container>
             </div>
@@ -22,7 +22,7 @@
                         This field is required</div>
                 </ng-container>
             </div>
-            <button class="btn btn-primary" type="submit" (click)="login()" [disabled]="!userForm.valid">הכנס</button>
+            <button class="btn btn-primary" type="submit" [disabled]="!userForm.valid">הכנס</button>
         </form>
     </div>
 </ng-container>

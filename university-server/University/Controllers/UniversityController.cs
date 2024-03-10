@@ -15,7 +15,7 @@ namespace University.Controllers
     [Authorize]
     public class UniversityController : ControllerBase
     {
-        private static List<User> Users = new()
+        private static readonly List<User> Users = new()
         {
             new User("Malki", "Menachem 18", "malki@gmail.com", "123"),
             new User("Batya", "Ami 9", "batya@gmail.com", "321"),
@@ -23,13 +23,13 @@ namespace University.Controllers
             new User("w", "Menachem 18", "malki@gmail.com", "w")
         };
 
-        private static List<Lecturer> Lecturers = new()
+        private static readonly List<Lecturer> Lecturers = new()
         {
             new Lecturer("Marze", "address 2", "fdafd@gmail.com", "0987"),
             new Lecturer("lecturer", "address 2", "fdafd@gmail.com", "2222"),
         };
 
-        private static List<Category> Categories = new()
+        private static readonly List<Category> Categories = new()
         {
             new Category("Camputers", ""),
             new Category("Math", ""),
@@ -38,7 +38,7 @@ namespace University.Controllers
             new Category("History", "")
         };
 
-        private static List<Course> Courses = new()
+        private static readonly List<Course> Courses = new()
         {
             new Course("C#", 1, 50, new DateTime(2024,03,14),
                 new List<string>(){"OOP", "string", "variables"}, LearningOptions.FRONTAL, 1, ""),
@@ -50,12 +50,10 @@ namespace University.Controllers
                             new List<string>(){"Songs", "Musics"}, LearningOptions.ZOOM, 1, ""),
         };
 
-        private readonly ILogger<UniversityController> _logger;
         private readonly IConfiguration _configuration;
 
-        public UniversityController(ILogger<UniversityController> logger, IConfiguration configuration)
+        public UniversityController(IConfiguration configuration)
         {
-            _logger = logger;
             _configuration = configuration;
         }
 
@@ -114,7 +112,7 @@ namespace University.Controllers
         public IActionResult Login([FromBody] LoginModel loginModel)
         {
             var exist = Users.FindAll(u => u.Name == loginModel.UserName);
-            if (exist is null)
+            if (exist is null || exist.Count == 0)
                 return Unauthorized(new { Error = "user" });
             var correct = exist.Find(u => u.Password == loginModel.Password);
             if (correct is null)
@@ -122,8 +120,8 @@ namespace University.Controllers
 
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, "malkabr"),
-                new Claim(ClaimTypes.Role, "teacher")
+                new Claim(ClaimTypes.Name, loginModel.UserName),
+                new Claim(ClaimTypes.Role, loginModel.Password)
             };
 
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JWT:Key")));
