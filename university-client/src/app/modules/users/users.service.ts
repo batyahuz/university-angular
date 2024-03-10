@@ -8,16 +8,20 @@ import { User } from "./models/user.model";
 export class UserService {
     // private _courses: User[] = [
     // ];
-    private readonly _baseUrl = "http://localhost:7148/university";
-    private readonly _serviceName = "/university";
+    private readonly _serviceName = "/university/";
 
     login(user: {}): Promise<any> {
         console.log('in login service: user:', user);
 
         return new Promise((res, rej) => {
             // this._http.post(`${this._serviceName}login`, user)
-            this._http.post(`${this._serviceName}/login`, user)
-                .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
+            this._http.post("/university/login", user)
+                .subscribe({
+                    next: (data) => res(data), error: (error) => {
+                        console.log('in ERROR in login servoce');
+                        rej(error)
+                    }
+                })
         })
     }
 
