@@ -6,8 +6,7 @@ import { User } from "./models/user.model";
     providedIn: 'root'
 })
 export class UserService {
-    // private _courses: User[] = [
-    // ];
+
     private readonly _serviceName = "/university/";
 
     private setLocalStorage(data: string, name: string) {

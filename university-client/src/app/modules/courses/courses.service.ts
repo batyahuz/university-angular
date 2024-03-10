@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Course, learningOptions } from "./models/course.model";
 import { Observable } from "rxjs";
 import { Category } from "./models/category.model";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class CoursesService {
@@ -27,41 +28,45 @@ export class CoursesService {
     // ];
     private readonly _serviceName = "/university";
 
+    navigateIfNotLoggedIn(): void {
+        if (!localStorage.getItem('userToken'))
+            this._router.navigate(['/']);
+    }
+
     getCourses(): Promise<Course[]> {
         return new Promise((res, rej) => {
-            this._http.get<Course[]>(`${this._serviceName}/courses`)
+            this._http.get<Course[]>(this._serviceName + `/courses`)
                 .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
-            // res(this._courses)
         })
     }
 
     getCourseById(id: number): Promise<Course> {
         return new Promise((res, rej) => {
-            this._http.get<Course>(`${this._serviceName}/courses/${id}`)
+            this._http.get<Course>(this._serviceName + `/courses/${id}`)
                 .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
         })
     }
 
     addCourse(course: Course): Promise<Course> {
         return new Promise((res, rej) => {
-            this._http.post<Course>(`${this._serviceName}/courses`, course)
+            this._http.post<Course>(this._serviceName + `/courses`, course)
                 .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
         })
     }
 
     editCouse(id: number, course: Course): Promise<Course> {
         return new Promise((res, rej) => {
-            this._http.put<Course>(`${this._serviceName}/courses${id}`, course)
+            this._http.put<Course>(this._serviceName + `/courses${id}`, course)
                 .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
         })
     }
 
     deleteCourse(course: Course): Promise<Course> {
         return new Promise((res, rej) => {
-            this._http.post<Course>(`${this._serviceName}/courses`, course)
+            this._http.post<Course>(this._serviceName + `/courses`, course)
                 .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
         })
     }
 
-    constructor(private _http: HttpClient) { }
+    constructor(private _http: HttpClient, private _router: Router) { }
 }
