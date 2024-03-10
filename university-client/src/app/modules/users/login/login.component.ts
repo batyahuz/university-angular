@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../users.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginModel } from '../models/login.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,30 +15,37 @@ import { LoginModel } from '../models/login.model';
 export class LoginComponent {
   user: LoginModel = new LoginModel;
 
+  nameInvalid: boolean;
+  nameInvalidValue: string;
+
+  passwordInvalid: boolean;
+  passwordInvalidValue: string;
+
   userForm: FormGroup = new FormGroup({
-    "userName": new FormControl(this.user.name, [Validators.required]),
-    "password": new FormControl(this.user.password, [Validators.required])
+    "userName": new FormControl(this.user.name, [Validators.required, Validators.minLength(4)]),
+    "password": new FormControl(this.user.password, [Validators.required, Validators.minLength(4)])
   })
 
 
   login() {
-    console.log('in login function! userForm:', this.userForm.value);
-    const f = this._userService.login(this.userForm.value);
-    console.log('f = ', f);
-
-    // const userExists = this._userService.login({ name: this.user.name, password: this.user.password })
-    // if (userExists) {
-    //   const validPassword = this._userService.checkPassword(this.username, this.password);
-    //   if (validPassword) {
-    //     this.loginError = ''; this.courseName = this._userService.getCourseName(this.username);
-    //   } else {
-    //     this.loginError = 'Incorrect password. Please try again.';
-    //   }
-    // } else {
-    //   this.loginError = 'User does not exist. Please register first.'; // You may choose to navigate to the register component here 
-    // }
+    this._userService.login(this.userForm.value).then(() => {
+      this._router.navigate(['/']);
+    }).catch((error) => {
+      console.log('error', error);
+      if (error.error.error === 'user') {
+        console.log('user name is invalid');//swel
+        this.nameInvalidValue = this.userForm.controls['userName'].value;
+        this.nameInvalid = true;
+        console.log(this.nameInvalid);
+        console.log(this.nameInvalidValue);
+      } else {
+        console.log('password in not valid');//swel
+        this.passwordInvalidValue = this.userForm.controls['password'].value;
+        this.passwordInvalid = true;
+      }
+    })
   }
 
-  constructor(private _userService: UserService) { }
+  constructor(private _userService: UserService, private _router: Router) { }
 }
 

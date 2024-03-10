@@ -10,15 +10,20 @@ export class UserService {
     // ];
     private readonly _serviceName = "/university/";
 
-    login(user: {}): Promise<any> {
-        console.log('in login service: user:', user);
+    private setLocalStorage(data: string, name: string) {
+        localStorage.setItem('userToken', 'Bearer ' + data)
+        localStorage.setItem('userName', name)
+    }
 
+    login(user: { userName: "" }): Promise<any> {
         return new Promise((res, rej) => {
-            // this._http.post(`${this._serviceName}login`, user)
-            this._http.post("/university/login", user)
+            this._http.post(this._serviceName + `login`, user)
                 .subscribe({
-                    next: (data) => res(data), error: (error) => {
-                        console.log('in ERROR in login servoce');
+                    next: (data: any) => {
+                        this.setLocalStorage(data.token, user.userName)
+                        res(data)
+                    }, error: (error) => {
+                        //TODO alert here error of service
                         rej(error)
                     }
                 })
@@ -28,8 +33,18 @@ export class UserService {
     signin(user: User): Promise<any> {
         return new Promise((res, rej) => {
             this._http.post(this._serviceName + `signin`, user)
-                .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
+                .subscribe({
+                    next: (data: any) => {
+                        this.setLocalStorage(data.token, user.name)
+                        res(data)
+                    }, error: (error) => { rej(error) }
+                })
         })
+    }
+
+    signout(): void {
+        localStorage.removeItem('userToken')
+        localStorage.removeItem('userName')
     }
 
     constructor(private _http: HttpClient) { }

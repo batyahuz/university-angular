@@ -1,6 +1,0 @@
-{
-    "/university/*": {
-        "target": "http://localhost:7148/",
-        "secure": false
-    }
-}

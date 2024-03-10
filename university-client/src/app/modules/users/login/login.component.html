@@ -10,6 +10,10 @@
                 <ng-container *ngIf="userForm.controls['userName'].touched && userForm.controls['userName'].errors">
                     <div class="alert alert-danger" *ngIf="userForm.controls['userName'].errors['required']">
                         This field is required</div>
+                    <div class="alert alert-danger" *ngIf="userForm.controls['userName'].errors['minlength']">
+                        This field must contains at least 4 chars</div>
+                    <div *ngIf="nameInvalid && userForm.controls['userName'].value === nameInvalidValue"
+                        class="alert alert-danger">name is invalid</div>
                 </ng-container>
             </div>
             <div class="form-group form-floating">
@@ -20,6 +24,10 @@
                 <ng-container *ngIf="userForm.controls['password'].touched && userForm.controls['password'].errors">
                     <div class="alert alert-danger" *ngIf="userForm.controls['password'].errors['required']">
                         This field is required</div>
+                    <div class="alert alert-danger" *ngIf="userForm.controls['password'].errors['minlength']">
+                        This field must contains at least 4 chars</div>
+                    <div *ngIf="passwordInvalid && userForm.controls['password'].value === passwordInvalidValue"
+                        class="alert alert-danger">password is invalid</div>
                 </ng-container>
             </div>
             <button class="btn btn-primary" type="submit" [disabled]="!userForm.valid">הכנס</button>

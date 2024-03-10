@@ -1,0 +1,7 @@
+{
+    "/university/*": {
+        "target": "https://localhost:7148/",
+        "secure": false,
+        "changeOrigin": true
+    }
+}
