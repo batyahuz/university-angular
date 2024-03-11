@@ -3,9 +3,10 @@ export class Course {
     public name!: string;
     public categoryId!: number;
     public numberLessons!: number;
-    public dataStart!: Date;
+    public dateStart!: Date;
     public optionLearning!: learningOptions;
     public lectureId!: number;
+    public cilibus!: string[];
     public image!: string;
 }
 

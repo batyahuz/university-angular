@@ -74,14 +74,14 @@ namespace University.Controllers
         }
 
         [HttpPost("courses")]
-        public IActionResult AddCourse([FromBody] Course course)
+        public IActionResult AddCourse([FromBody] CourseOutModel course)
         {
-            Courses.Add(course);
+            Courses.Add(new Course(course));
             return Ok(course);
         }
 
         [HttpPut("courses/{id}")]
-        public IActionResult UpdateCourse(int id, [FromBody] Course course)
+        public IActionResult UpdateCourse(int id, [FromBody] CourseOutModel course)
         {
             var exist = Courses.Find(x => x.Id == id);
             if (exist is null)
@@ -93,7 +93,7 @@ namespace University.Controllers
             exist.Cilibus.Clear();
             course.Cilibus.ForEach(c => exist.Cilibus.Add(c));
             exist.NumberLessons = course.NumberLessons;
-            exist.DateStart = course.DateStart;
+            exist.DateStart =DateTime.Parse(course.DateStart);
             exist.Image = course.Image;
             return Ok(exist);
         }

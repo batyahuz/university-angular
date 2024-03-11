@@ -7,12 +7,15 @@ import { AddCourseComponent } from "./add-course/add-course.component";
 import { CourseDetailsComponent } from "./course-details/course-details.component";
 import { HeaderInterceptor } from "./header.interceptor";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+
 
 @NgModule({
-    imports: [HttpClientModule, RouterModule.forChild(courseRoutes)],
+    imports: [HttpClientModule, CommonModule, FormsModule, ReactiveFormsModule, RouterModule.forChild(courseRoutes)],
     declarations: [AllCoursesComponent, EditCourseComponent, AddCourseComponent, CourseDetailsComponent],
     providers: [CoursesModule, { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
-    exports: [AllCoursesComponent]
+    exports: []
 })
 export class CoursesModule {
 

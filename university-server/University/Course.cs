@@ -1,4 +1,7 @@
-﻿namespace University
+﻿using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
+
+namespace University
 {
     public enum LearningOptions { FRONTAL, ZOOM }
     public class Course
@@ -25,6 +28,21 @@
             OptionLearning = optionLearning;
             LecturerId = lecturerId;
             Image = image;
+        }
+
+        public Course(CourseOutModel outModel)
+        {
+            Id = ++_id;
+            Name = outModel.Name;
+            CategoryId = outModel.CategoryId;
+            NumberLessons = outModel.NumberLessons;
+            DateTime date;
+            DateTime.TryParse(outModel.DateStart, out date);
+            DateStart = date;
+            Cilibus = outModel.Cilibus;
+            OptionLearning = outModel.OptionLearning;
+            LecturerId = outModel.LecturerId;
+            Image = outModel.Image;
         }
     }
 }

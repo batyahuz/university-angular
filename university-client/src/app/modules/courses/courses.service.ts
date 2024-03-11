@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Course, learningOptions } from "./models/course.model";
 import { Observable } from "rxjs";
@@ -26,6 +26,7 @@ export class CoursesService {
     //     { id: 4, name: "Gym", icon: "" },
     //     { id: 5, name: "History", icon: "" }
     // ];
+
     private readonly _serviceName = "/university";
 
     navigateIfNotLoggedIn(): void {
@@ -47,12 +48,38 @@ export class CoursesService {
         })
     }
 
+    course: Course = new Course();
+
+    login(user: { name: string }): Promise<any> {
+        return new Promise((res, rej) => {
+            this._http.post(this._serviceName + `/signin`, user)
+                .subscribe({
+                    next: (data: any) => {
+                        console.log('suucceed');
+                        res(data)
+                    }, error: (error) => {
+                        //TODO alert here error of service
+                        rej(error)
+                    }
+                })
+        })
+    }
+
     addCourse(course: Course): Promise<Course> {
-        console.log('in add course service');
-        
+        console.log('in add course service', course);
+
         return new Promise((res, rej) => {
             this._http.post<Course>(this._serviceName + `/courses`, course)
-                .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
+                .subscribe({
+                    next: (data) => {
+                        console.log('succeeded');
+                        res(data)
+                    }, error: (error) => {
+                        console.log('error');
+
+                        rej(error)
+                    }
+                })
         })
     }
 
