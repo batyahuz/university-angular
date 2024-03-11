@@ -5,11 +5,13 @@ import { courseRoutes } from "./courses.routes";
 import { EditCourseComponent } from "./edit-course/edit-course.component";
 import { AddCourseComponent } from "./add-course/add-course.component";
 import { CourseDetailsComponent } from "./course-details/course-details.component";
+import { HeaderInterceptor } from "./header.interceptor";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 @NgModule({
-    imports: [RouterModule.forChild(courseRoutes)],
+    imports: [HttpClientModule, RouterModule.forChild(courseRoutes)],
     declarations: [AllCoursesComponent, EditCourseComponent, AddCourseComponent, CourseDetailsComponent],
-    providers: [CoursesModule],
+    providers: [CoursesModule, { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
     exports: [AllCoursesComponent]
 })
 export class CoursesModule {

@@ -48,6 +48,8 @@ export class CoursesService {
     }
 
     addCourse(course: Course): Promise<Course> {
+        console.log('in add course service');
+        
         return new Promise((res, rej) => {
             this._http.post<Course>(this._serviceName + `/courses`, course)
                 .subscribe({ next: (data) => res(data), error: (error) => rej(error) })

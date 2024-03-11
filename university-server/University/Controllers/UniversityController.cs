@@ -7,6 +7,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Xml.Linq;
+using static University.Controllers.AuthorizationToken;
 
 namespace University.Controllers
 {
@@ -118,22 +119,7 @@ namespace University.Controllers
             if (correct is null)
                 return Unauthorized(new { Error = "password" });
 
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, loginModel.UserName),
-                new Claim(ClaimTypes.Role, loginModel.Password)
-            };
-
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JWT:Key")));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            var tokeOptions = new JwtSecurityToken(
-                issuer: _configuration.GetValue<string>("JWT:Issuer"),
-                audience: _configuration.GetValue<string>("JWT:Audience"),
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(6),
-                signingCredentials: signinCredentials
-            );
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+            var tokenString = MakeToken(loginModel, _configuration);
             return Ok(new { Token = tokenString });
         }
 
@@ -145,7 +131,9 @@ namespace University.Controllers
             if (exist is null)
                 return NotFound(new { Error = "user name is already exist" });
             Users.Add(user);
-            return Ok();
+
+            var tokenString = MakeToken(new LoginModel(user), _configuration);
+            return Ok(new { Token = tokenString });
         }
     }
 }
