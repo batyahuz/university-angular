@@ -1,12 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { User } from "./models/user.model";
+import { DataService } from "../../app/app.data.service"
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
 
+    private readonly _dataService: DataService;
     private readonly _serviceName = "/university/";
 
     private setSessionStorage(data: string, name: string) {
@@ -22,7 +24,6 @@ export class UserService {
                         this.setSessionStorage(data.token, user.userName)
                         res(data)
                     }, error: (error) => {
-                        //TODO alert here error of service
                         rej(error)
                     }
                 })
@@ -44,6 +45,7 @@ export class UserService {
     signout(): void {
         sessionStorage.removeItem('userToken')
         sessionStorage.removeItem('userName')
+        this._dataService.updateDataInLocalStorage()
     }
 
     constructor(private _http: HttpClient) { }

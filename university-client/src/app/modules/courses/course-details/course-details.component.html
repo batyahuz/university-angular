@@ -1,19 +1,59 @@
-<p>course-details works!</p>
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card">
-                <h5 class="card-title">{{ course.name }}</h5>
-                <img [src]="course.image" class="card-img-top" alt="Course Image">
-                <div class="card-body">
-                    <p class="card-text">Category: {{ course.categoryId }}</p>
-                    <p class="card-text">Number of Lessons: {{ course.numberLessons }}</p>
-                    <p class="card-text">Start Date: {{ course.dateStart | date }}</p>
-                    <p class="card-text">Learning Option: {{ course.optionLearning }}</p>
-                    <p class="card-text">Lecturer ID: {{ course.lecturerId }}</p>
-                    <p class="card-text">Cilibus: {{ course.cilibus.join(', ') }}</p>
+                <img [src]="'../../../../../' + course.image" class="card-img-top" alt="Course Image">
+                <div class="card-body align-start">
+                    <h4 class="card-title turquoise align-center">{{ course.name }}</h4>
+                    <div class="card-text">
+                        <div class="inline">
+                            <img [src]="category?.icon" alt="category icon" class="radio-icon">
+                            <h6 class="turquoise inline"> Category: </h6>
+                        </div>
+                        <p class="inline">{{ category?.name }}</p>
+                    </div>
+                    <div class="card-text">
+                        <div class="inline">
+                            🕑
+                            <h6 class="turquoise inline">Length Of Course:</h6>
+                        </div>
+                        <p class="inline">{{ course.numberLessons }} Hours</p>
+                    </div>
+                    <div class="card-text">
+                        <div class="inline">
+                            📆
+                            <h6 class="turquoise inline"> Course Start Date:</h6>
+                        </div>
+                        <p class="inline">{{ course.dateStart | date }}</p>
+                    </div>
+                    <div class="card-text">
+                        <div class="inline">
+                            <img alt="Learning Option Icon" class="radio-icon" [src]="course?.optionLearning?.toString() | learningOptionIcon">
+                            <h6 class="turquoise inline"> Learning Option: </h6>
+                        </div>
+                        <p class="inline">{{ course.optionLearning?'zoom':'frontal' }}</p>
+                    </div>
+                    <div class="card-text">
+                        <div class="inline">
+                            👨‍🏫
+                            <h6 class="turquoise inline">Lecturer: </h6>
+                        </div>
+                        <p class="inline">{{ lecturer?.name }}</p>
+                    </div>
+                    <!-- <p class="card-text">Cilibus: {{ course.cilibus.join(', ') }}</p> -->
                 </div>
+                <!-- <div class="card" style="width: 18rem;"> -->
+                <div>
+                    <h6 class="card-header turquoise"> Cilibus: </h6>
+                    <ul *ngFor="let c of course.cilibus" class="list-group list-group-flush">
+                        <li class="list-group-item">{{c}}</li>
+                    </ul>
+                </div>
+                <!-- </div> -->
+                <div class="card-body">
+                    <button *ngIf="isLecturer" href="#" class="btn btn-success">Update Course Details</button>
+                </div>
+                <!-- </div> -->
             </div>
         </div>
     </div>
-</div>

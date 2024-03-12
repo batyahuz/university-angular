@@ -27,11 +27,11 @@ export class EditCourseComponent implements OnInit {
     if (this.course != undefined) {
       this.courseForm = new FormGroup({
         name: new FormControl(this.course.name, [Validators.required]),
-        categoryId: new FormControl(this.course.categoryId, [Validators.required]),
-        numberLessons: new FormControl(this.course.numberLessons, [Validators.required]),
+        categoryId: new FormControl(this.course.categoryId, [Validators.required, Validators.min(1)]),
+        numberLessons: new FormControl(this.course.numberLessons, [Validators.required, Validators.min(1)]),
         dateStart: new FormControl(this.course.dateStart, [Validators.required]),
         optionLearning: new FormControl(this.course.optionLearning, [Validators.required]),
-        lecturerId: new FormControl(this.course.lecturerId, [Validators.required]),
+        lecturerId: new FormControl(this.course.lecturerId, [Validators.required, Validators.min(1)]),
         cilibus: this.formBuilder.array(this.course.cilibus),
         image: new FormControl(this.course.image, [Validators.required])
       })
@@ -64,7 +64,6 @@ export class EditCourseComponent implements OnInit {
 
   onSubmit(): void {
     if (this.courseForm.invalid) {
-      console.log('Form is invalid', this.courseForm.value, this.courseForm.errors);
       return;
     }
 
@@ -108,7 +107,6 @@ export class EditCourseComponent implements OnInit {
 
     this._service.getCourseById(this.id).subscribe({
       next: (data) => {
-        console.log('data', data);
         this.course = data;
         this.addCilibus();
       }, error: () => {
@@ -122,13 +120,23 @@ export class EditCourseComponent implements OnInit {
     })
 
     this._service.getCategories().subscribe({
-      next: (data) => {console.log(data);
-      
-        this.categeries = data}, error: (error) => console.log(error)
+      next: (data) => {
+        this.categeries = data
+      }, error: (error) =>
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "can't connect to server"
+        })
     })
 
     this._service.getLecturers().subscribe({
-      next: (data) => this.lecturers = data, error: (error) => console.log(error)
+      next: (data) => this.lecturers = data, error: (error) => 
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "can't connect to server"
+      })
     })
   }
 }

@@ -32,23 +32,23 @@ namespace University.Controllers
 
         private static readonly List<Category> Categories = new()
         {
-            new Category("Camputers", "/assest/categories-icons/01.png"),
-            new Category("Math", "/assest/categories-icons/02.png"),
-            new Category("English", "/assest/categories-icons/03.png"),
-            new Category("Gym", "/assest/categories-icons/04.png"),
-            new Category("History", "/assest/categories-icons/05.svg")
+            new Category("Camputers", "assets/categories-icons/01.png"),
+            new Category("Math", "assets/categories-icons/02.png"),
+            new Category("English", "assets/categories-icons/03.png"),
+            new Category("Gym", "assets/categories-icons/04.png"),
+            new Category("History", "assets/categories-icons/05.svg")
         };
 
         private static readonly List<Course> Courses = new()
         {
             new Course("C#", 1, 50, new DateTime(2024,03,14),
-                new List<string>(){"OOP", "string", "variables"}, LearningOptions.FRONTAL, 1, ""),
+                new List<string>(){"OOP", "string", "variables"}, LearningOptions.FRONTAL, 1, "assets/courses-icons/csharp.svg"),
             new Course("Java", 1, 50, new DateTime(2024,01,14),
-                            new List<string>(){"Server", "string", "variables"}, LearningOptions.ZOOM, 2, ""),
+                            new List<string>(){"Server", "string", "variables"}, LearningOptions.ZOOM, 2, "assets/courses-icons/java.png"),
             new Course("Graghs", 2, 50, new DateTime(2024,05,14),
-                            new List<string>(){"numbers", "pivots"}, LearningOptions.FRONTAL, 2, ""),
+                            new List<string>(){"numbers", "pivots"}, LearningOptions.FRONTAL, 2, "assets/courses-icons/graphs.png"),
             new Course("Dancing", 4, 50, new DateTime(2025,02,09),
-                            new List<string>(){"Songs", "Musics"}, LearningOptions.ZOOM, 1, ""),
+                            new List<string>(){"Songs", "Musics"}, LearningOptions.ZOOM, 1, "assets/courses-icons/dancing.png"),
         };
 
         private readonly IConfiguration _configuration;
@@ -139,9 +139,8 @@ namespace University.Controllers
         [AllowAnonymous]
         public IActionResult Signin([FromBody] User user)
         {
-            var exist = Users.FindAll(u => u.Name == user.Name);
-            if (exist is null)
-                return NotFound(new { Error = "user name is already exist" });
+            if (Users.Exists(u => u.Email == user.Email))
+                return NotFound(new { Error = "user is already exist" });
             Users.Add(user);
 
             var tokenString = MakeToken(new LoginModel(user), _configuration);

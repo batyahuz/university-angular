@@ -60,6 +60,9 @@
                                             <div class="alert alert-danger"
                                                 *ngIf="courseForm.controls['numberLessons'].errors['required']">This
                                                 field is required</div>
+                                                <div class="alert alert-danger"
+                                                *ngIf="courseForm.controls['numberLessons'].errors['min']">This
+                                                field must be positive</div>
                                         </ng-container>
                                     </div>
                                     <div class="form-group form-floating mb-3">
@@ -84,7 +87,7 @@
                                                         id="zoomOption" value="0" formControlName="optionLearning">
                                                     <label class="form-check-label" for="zoomOption">
                                                         ZOOM
-                                                        <img src="/assets/zoom-icon.png" alt="Zoom Icon"
+                                                        <img src="/assets/option-learning/1.png" alt="Zoom Icon"
                                                             class="radio-icon">
                                                     </label>
                                                 </div>
@@ -93,7 +96,7 @@
                                                         id="frontalOption" value="1" formControlName="optionLearning">
                                                     <label class="form-check-label" for="frontalOption">
                                                         FRONTAL
-                                                        <img src="/assets/frontal-icon.png" alt="Frontal Icon"
+                                                        <img src="/assets/option-learning/0.png" alt="Frontal Icon"
                                                             class="radio-icon">
                                                     </label>
                                                 </div>

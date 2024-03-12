@@ -4,6 +4,7 @@ import { UserService } from '../users.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginModel } from '../models/login.model';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -26,22 +27,28 @@ export class LoginComponent {
     "password": new FormControl(this.user.password, [Validators.required, Validators.minLength(2)])
   })
 
+  isLecturer: boolean = false;
+  setIsLecturer(): void {
+    this.isLecturer = !this.isLecturer;
+  }
 
   onSubmit() {
     this._userService.login(this.userForm.value).then(() => {
-      this._router.navigate(['/']);
+      this._router.navigate(['/course/all']);
     }).catch((error) => {
-      console.log('error', error);
       if (error.error.error === 'user') {
-        console.log('user name is invalid');//swel
-        this.nameInvalidValue = this.userForm.controls['userName'].value;
-        this.nameInvalid = true;
-        console.log(this.nameInvalid);
-        console.log(this.nameInvalidValue);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "user name is invalid"
+        });
+        this._router.navigate(['/user/register'], { state: { name: this.userForm.controls['userName'].value } });
       } else {
-        console.log('password in not valid');//swel
-        this.passwordInvalidValue = this.userForm.controls['password'].value;
-        this.passwordInvalid = true;
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "password in not valid"
+        });
       }
     })
   }

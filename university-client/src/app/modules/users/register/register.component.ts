@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../users.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -10,8 +11,8 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.css',
   providers: [UserService]
 })
-export class RegisterComponent {
-  user: User = new User;
+export class RegisterComponent implements OnInit {
+  user: User = new User();
   userForm: FormGroup = new FormGroup({
     "name": new FormControl(this.user.password, [Validators.required, Validators.minLength(2)]),
     "address": new FormControl(this.user.password, [Validators.required]),
@@ -21,11 +22,27 @@ export class RegisterComponent {
 
   onSubmit() {
     this._userService.signin(this.userForm.value).then(() => {
-      this._router.navigate(['/']);
+      this._router.navigate(['/course/all']);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: 'Perfect',
+        text: 'Course has benn saved successfuly :)',
+        showConfirmButton: false,
+        timer: 2000
+      });
     }).catch((error) => {
-      console.log('error', error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.error.error
+      });
     })
   }
 
   constructor(private _userService: UserService, private _router: Router) { }
+
+  ngOnInit(): void {
+    this.userForm.controls['name'].setValue(history.state.name);
+  }
 }

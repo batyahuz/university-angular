@@ -9,11 +9,12 @@ import { HeaderInterceptor } from "./header.interceptor";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { LearningOptionIconPipe } from "./learning.option.icon.pipe";
 
 
 @NgModule({
     imports: [HttpClientModule, CommonModule, FormsModule, ReactiveFormsModule, RouterModule.forChild(courseRoutes)],
-    declarations: [AllCoursesComponent, EditCourseComponent, AddCourseComponent, CourseDetailsComponent],
+    declarations: [AllCoursesComponent, EditCourseComponent, AddCourseComponent, CourseDetailsComponent, LearningOptionIconPipe],
     providers: [CoursesModule, { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
     exports: []
 })

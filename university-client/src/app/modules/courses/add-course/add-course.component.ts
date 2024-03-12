@@ -21,12 +21,12 @@ export class AddCourseComponent implements OnInit {
   lecturers: Lecturer[];
 
   courseForm: FormGroup = new FormGroup({
-    name: new FormControl(this.course.name, [Validators.required, Validators.minLength(4)]),
-    categoryId: new FormControl(this.course.categoryId, [Validators.required]),
-    numberLessons: new FormControl(this.course.numberLessons, [Validators.required]),
+    name: new FormControl(this.course.name, [Validators.required,]),
+    categoryId: new FormControl(this.course.categoryId, [Validators.required, Validators.min(1)]),
+    numberLessons: new FormControl(this.course.numberLessons, [Validators.required,Validators.min(1)]),
     dateStart: new FormControl(this.course.dateStart, [Validators.required]),
     optionLearning: new FormControl(this.course.optionLearning, [Validators.required]),
-    lecturerId: new FormControl(this.course.lecturerId, [Validators.required]),
+    lecturerId: new FormControl(this.course.lecturerId, [Validators.required, Validators.min(1)]),
     cilibus: this.formBuilder.array([]),
     image: new FormControl(this.course.image, [Validators.required])
   })
@@ -34,11 +34,11 @@ export class AddCourseComponent implements OnInit {
   get cilibusArray() {
     return this.courseForm.get('cilibus') as FormArray;
   }
-  
+
   addCilibus() {
     this.cilibusArray.push(this.formBuilder.control(''));
   }
-  
+
   removeCilibus(index: number) {
     this.cilibusArray.removeAt(index);
   }
@@ -57,12 +57,10 @@ export class AddCourseComponent implements OnInit {
 
   onSubmit(): void {
     if (this.courseForm.invalid) {
-      console.log('Form is invalid');
       return;
     }
 
     this.courseForm.value.optionLearning = parseInt(this.courseForm.value.optionLearning)
-    console.log('form', this.courseForm.value);
 
     this._service.addCourse(this.courseForm.value).subscribe({
       next: (data) => {
@@ -73,7 +71,7 @@ export class AddCourseComponent implements OnInit {
           text: 'Course has benn saved successfuly :)',
           showConfirmButton: false,
           timer: 2000
-        });
+        })
         this._router.navigate(['/course/all']);
       }, error: (error) => {
         Swal.fire({
@@ -92,11 +90,19 @@ export class AddCourseComponent implements OnInit {
     this.addCilibus()
 
     this._service.getCategories().subscribe({
-      next: (data) => this.categeries = data, error: (error) => console.log(error)
+      next: (data) => this.categeries = data, error: (error) => Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "can't connect to server"
+      })
     })
 
     this._service.getLecturers().subscribe({
-      next: (data) => this.lecturers = data, error: (error) => console.log(error)
+      next: (data) => this.lecturers = data, error: (error) => Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "can't connect to server"
+      })
     })
   }
 }
