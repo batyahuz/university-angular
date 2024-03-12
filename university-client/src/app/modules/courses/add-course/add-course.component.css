@@ -1,0 +1,45 @@
+#courseForm img {
+    max-width: 100%;
+}
+
+select {
+    appearance: none;
+}
+
+.radio-icon {
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+}
+
+.forOptionLearning{
+    padding: 1rem 0.75rem 0rem 0.75rem;
+}
+
+#forOptionLearning {
+    color: rgba(var(--bs-body-color-rgb), .65);
+    transform: scale(.85) translateY(-0.5rem) translateX(0.15rem);
+    text-align: start;
+}
+
+/* 
+option {
+    padding-left: 24px;
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+option[data-icon] {
+    padding-left: 32px;
+}
+
+option[data-icon]:before {
+    content: url('../../../../assets/zoom-icon.png');
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    right: 0;
+    margin-right: 8px; 
+    background-image: url('../../../../assets/zoom-icon.png');
+} */

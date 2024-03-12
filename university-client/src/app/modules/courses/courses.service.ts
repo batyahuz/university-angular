@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Course, learningOptions } from "./models/course.model";
 import { Observable } from "rxjs";
 import { Category } from "./models/category.model";
 import { Router } from "@angular/router";
+import { Lecturer } from "./models/lecturer.model";
 
 @Injectable()
 export class CoursesService {
@@ -30,7 +31,7 @@ export class CoursesService {
     private readonly _serviceName = "/university";
 
     navigateIfNotLoggedIn(): void {
-        if (!localStorage.getItem('userToken'))
+        if (!sessionStorage.getItem('userToken'))
             this._router.navigate(['/']);
     }
 
@@ -41,53 +42,16 @@ export class CoursesService {
         })
     }
 
-    getCourseById(id: number): Promise<Course> {
-        return new Promise((res, rej) => {
-            this._http.get<Course>(this._serviceName + `/courses/${id}`)
-                .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
-        })
+    getCourseById(id: number): Observable<Course> {
+        return this._http.get<Course>(this._serviceName + `/courses/${id}`)
     }
 
-    course: Course = new Course();
-
-    login(user: { name: string }): Promise<any> {
-        return new Promise((res, rej) => {
-            this._http.post(this._serviceName + `/signin`, user)
-                .subscribe({
-                    next: (data: any) => {
-                        console.log('suucceed');
-                        res(data)
-                    }, error: (error) => {
-                        //TODO alert here error of service
-                        rej(error)
-                    }
-                })
-        })
+    addCourse(course: Course): Observable<Course> {
+        return this._http.post<Course>(this._serviceName + `/courses`, course)
     }
 
-    addCourse(course: Course): Promise<Course> {
-        console.log('in add course service', course);
-
-        return new Promise((res, rej) => {
-            this._http.post<Course>(this._serviceName + `/courses`, course)
-                .subscribe({
-                    next: (data) => {
-                        console.log('succeeded');
-                        res(data)
-                    }, error: (error) => {
-                        console.log('error');
-
-                        rej(error)
-                    }
-                })
-        })
-    }
-
-    editCouse(id: number, course: Course): Promise<Course> {
-        return new Promise((res, rej) => {
-            this._http.put<Course>(this._serviceName + `/courses${id}`, course)
-                .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
-        })
+    editCouse(id: number, course: Course): Observable<Course> {
+        return this._http.put<Course>(this._serviceName + `/courses/${id}`, course)
     }
 
     deleteCourse(course: Course): Promise<Course> {
@@ -95,6 +59,14 @@ export class CoursesService {
             this._http.post<Course>(this._serviceName + `/courses`, course)
                 .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
         })
+    }
+
+    getCategories(): Observable<Category[]> {
+        return this._http.get<Category[]>(this._serviceName + `/categories`)
+    }
+
+    getLecturers(): Observable<Lecturer[]> {
+        return this._http.get<Lecturer[]>(this._serviceName + `/lecturers`)
     }
 
     constructor(private _http: HttpClient, private _router: Router) { }

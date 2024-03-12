@@ -1,40 +1,78 @@
-<p>register works!</p>
-<ng-container class="card" *ngIf="user">
-    <div class="card-body">
-        <form [formGroup]="userForm">
-            <div class="form-group form-floating mb-3">
-                <input class="form-control"
-                    [ngClass]="{'is-invalid':userForm.controls['name'].touched && userForm.controls['name'].errors}"
-                    type="text" id="name" formControlName="name" name="name" />
-                <label for="name">user name:</label>
-                <ng-container *ngIf="userForm.controls['name'].touched && userForm.controls['name'].errors">
-                    <div class="alert alert-danger" *ngIf="userForm.controls['name'].errors['required']">
-                        This field is required</div>
-                </ng-container>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center turquoise">Register - Hello new user</h5>
+                        <ng-container class="card" *ngIf="user">
+                            <div class="card-body">
+                                <div class="form-group form-floating mb-3">
+                                    <input class="form-control"
+                                        [ngClass]="{'is-invalid':userForm.controls['name'].touched && userForm.controls['name'].errors}"
+                                        type="text" id="name" formControlName="name" name="name" />
+                                    <label for="name">user name:</label>
+                                    <ng-container
+                                        *ngIf="userForm.controls['name'].touched && userForm.controls['name'].errors">
+                                        <div class="alert alert-danger"
+                                            *ngIf="userForm.controls['name'].errors['required']">
+                                            This field is required</div>
+                                        <div class="alert alert-danger"
+                                            *ngIf="userForm.controls['name'].errors['minlength']">
+                                            This field must contains at least 2 chars</div>
+                                    </ng-container>
+                                </div>
+                                <div class="form-group form-floating mb-3">
+                                    <input class="form-control"
+                                        [ngClass]="{'is-invalid':userForm.controls['address'].touched && userForm.controls['address'].errors}"
+                                        type="text" id="address" formControlName="address" name="address" />
+                                    <label for="address">user address:</label>
+                                    <ng-container
+                                        *ngIf="userForm.controls['address'].touched && userForm.controls['address'].errors">
+                                        <div class="alert alert-danger"
+                                            *ngIf="userForm.controls['address'].errors['required']">
+                                            This field is required</div>
+                                    </ng-container>
+                                </div>
+                                <div class="form-group form-floating mb-3">
+                                    <input class="form-control"
+                                        [ngClass]="{'is-invalid':userForm.controls['email'].touched && userForm.controls['email'].errors}"
+                                        type="email" id="email" formControlName="email" name="email" />
+                                    <label for="name">user email:</label>
+                                    <ng-container
+                                        *ngIf="userForm.controls['email'].touched && userForm.controls['email'].errors">
+                                        <div class="alert alert-danger"
+                                            *ngIf="userForm.controls['email'].errors['required']">
+                                            This field is required</div>
+                                        <div class="alert alert-danger"
+                                            *ngIf="userForm.controls['email'].errors['email']">
+                                            This field must be a template of email</div>
+                                    </ng-container>
+                                </div>
+                                <div class="form-group form-floating mb-3">
+                                    <input class="form-control"
+                                        [ngClass]="{'is-invalid':userForm.controls['password'].touched && userForm.controls['password'].errors}"
+                                        type="text" id="password" formControlName="password" name="password" />
+                                    <label for="password">user password:</label>
+                                    <ng-container
+                                        *ngIf="userForm.controls['password'].touched && userForm.controls['password'].errors">
+                                        <div class="alert alert-danger"
+                                            *ngIf="userForm.controls['password'].errors['required']">
+                                            This field is required</div>
+                                        <div class="alert alert-danger"
+                                            *ngIf="userForm.controls['password'].errors['minlength']">
+                                            This field must contains at least 2 chars</div>
+                                    </ng-container>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-success" type="submit"
+                                        [disabled]="!userForm.valid">login</button>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
             </div>
-            
-            <div class="form-group form-floating mb-3">
-                <input class="form-control"
-                    [ngClass]="{'is-invalid':userForm.controls['password'].touched && userForm.controls['password'].errors}"
-                   type="text" id="password" formControlName="password" name="password" />
-                <label for="password">user password:</label>
-                <ng-container *ngIf="userForm.controls['password'].touched && userForm.controls['password'].errors">
-                    <div class="alert alert-danger" *ngIf="userForm.controls['password'].errors['required']">
-                        This field is required</div>
-                </ng-container>
-            </div>
-
-            <div class="form-group form-floating">
-                <input class="form-control"
-                    [ngClass]="{'is-invalid':userForm.controls['email'].touched && userForm.controls['email'].errors}"
-                   type="text" id="email" formControlName="email" name="email" />
-                <label for="email">user email:</label>
-                <ng-container *ngIf="userForm.controls['email'].touched && userForm.controls['email'].errors">
-                    <div class="alert alert-danger" *ngIf="userForm.controls['email'].errors['required']">
-                        This field is required</div>
-                </ng-container>
-            </div>
-            <button class="btn btn-primary" type="submit" (click)="register()" [disabled]="!userForm.valid">הכנס</button>
-        </form>
+        </div>
     </div>
-</ng-container>
+</form>

@@ -9,9 +9,9 @@ export class UserService {
 
     private readonly _serviceName = "/university/";
 
-    private setLocalStorage(data: string, name: string) {
-        localStorage.setItem('userToken', 'Bearer ' + data)
-        localStorage.setItem('userName', name)
+    private setSessionStorage(data: string, name: string) {
+        sessionStorage.setItem('userToken', 'Bearer ' + data)
+        sessionStorage.setItem('userName', name)
     }
 
     login(user: { userName: "" }): Promise<any> {
@@ -19,7 +19,7 @@ export class UserService {
             this._http.post(this._serviceName + `login`, user)
                 .subscribe({
                     next: (data: any) => {
-                        this.setLocalStorage(data.token, user.userName)
+                        this.setSessionStorage(data.token, user.userName)
                         res(data)
                     }, error: (error) => {
                         //TODO alert here error of service
@@ -34,7 +34,7 @@ export class UserService {
             this._http.post(this._serviceName + `signin`, user)
                 .subscribe({
                     next: (data: any) => {
-                        this.setLocalStorage(data.token, user.name)
+                        this.setSessionStorage(data.token, user.name)
                         res(data)
                     }, error: (error) => { rej(error) }
                 })
@@ -42,8 +42,8 @@ export class UserService {
     }
 
     signout(): void {
-        localStorage.removeItem('userToken')
-        localStorage.removeItem('userName')
+        sessionStorage.removeItem('userToken')
+        sessionStorage.removeItem('userName')
     }
 
     constructor(private _http: HttpClient) { }

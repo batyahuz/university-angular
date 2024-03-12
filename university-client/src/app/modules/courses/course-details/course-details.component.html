@@ -1,1 +1,19 @@
 <p>course-details works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <h5 class="card-title">{{ course.name }}</h5>
+                <img [src]="course.image" class="card-img-top" alt="Course Image">
+                <div class="card-body">
+                    <p class="card-text">Category: {{ course.categoryId }}</p>
+                    <p class="card-text">Number of Lessons: {{ course.numberLessons }}</p>
+                    <p class="card-text">Start Date: {{ course.dateStart | date }}</p>
+                    <p class="card-text">Learning Option: {{ course.optionLearning }}</p>
+                    <p class="card-text">Lecturer ID: {{ course.lecturerId }}</p>
+                    <p class="card-text">Cilibus: {{ course.cilibus.join(', ') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,2 +1,150 @@
-<p>add-course works!</p>
-<div (click)="sentreq()">sens req</div>
+<form id="courseForm" [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center turquoise">Add Course</h5>
+                        <ng-container class="card" *ngIf="course">
+                            <div class="card-body">
+                                <div class="form-group form-floating mb-3">
+                                    <input class="form-control"
+                                        [ngClass]="{'is-invalid': courseForm.controls['name'].touched && courseForm.controls['name'].errors}"
+                                        type="text" id="name" formControlName="name" name="name" />
+                                    <label for="name">Course Name:</label>
+                                    <ng-container
+                                        *ngIf="courseForm.controls['name'].touched && courseForm.controls['name'].errors">
+                                        <div class="alert alert-danger"
+                                            *ngIf="courseForm.controls['name'].errors['required']">
+                                            This field is
+                                            required</div>
+                                    </ng-container>
+                                </div>
+                                <div class="form-group form-floating mb-3">
+                                    <select class="form-select" formControlName="categoryId" id="categoryId">
+                                        <option *ngFor="let category of categeries" [value]="category.id">{{
+                                            category.name }}</option>
+                                    </select>
+                                    <label for="categoryId">Category:</label>
+                                    <ng-container
+                                        *ngIf="courseForm.controls['categoryId'].touched && courseForm.controls['categoryId'].errors">
+                                        <div class="alert alert-danger"
+                                            *ngIf="courseForm.controls['categoryId'].errors['required']">This
+                                            field is required</div>
+                                    </ng-container>
+                                </div>
+                                <div class="form-group form-floating mb-3">
+
+                                    <div class="form-group form-floating mb-3">
+                                        <select class="form-select" formControlName="lecturerId" id="lecturerId">
+                                            <option *ngFor="let lecturer of lecturers" [value]="lecturer.id">{{
+                                                lecturer.name }}</option>
+                                        </select>
+                                        <label for="lecturerId">Lecturer:</label>
+                                        <ng-container
+                                            *ngIf="courseForm.controls['lecturerId'].touched && courseForm.controls['lecturerId'].errors">
+                                            <div class="alert alert-danger"
+                                                *ngIf="courseForm.controls['lecturerId'].errors['required']">This
+                                                field is required</div>
+                                        </ng-container>
+                                    </div>
+                                    <div class="form-group form-floating mb-3">
+                                        <input class="form-control"
+                                            [ngClass]="{'is-invalid': courseForm.controls['numberLessons'].touched && courseForm.controls['numberLessons'].errors}"
+                                            type="number" id="numberLessons" formControlName="numberLessons"
+                                            name="numberLessons" />
+                                        <label for="numberLessons">Number of Lessons:</label>
+                                        <ng-container
+                                            *ngIf="courseForm.controls['numberLessons'].touched && courseForm.controls['numberLessons'].errors">
+                                            <div class="alert alert-danger"
+                                                *ngIf="courseForm.controls['numberLessons'].errors['required']">This
+                                                field is required</div>
+                                        </ng-container>
+                                    </div>
+                                    <div class="form-group form-floating mb-3">
+                                        <input class="form-control"
+                                            [ngClass]="{'is-invalid': courseForm.controls['dateStart'].touched && courseForm.controls['dateStart'].errors}"
+                                            type="date" id="dateStart" formControlName="dateStart" name="dateStart" />
+                                        <label for="dateStart">Start Date:</label>
+                                        <ng-container
+                                            *ngIf="courseForm.controls['dateStart'].touched && courseForm.controls['dateStart'].errors">
+                                            <div class="alert alert-danger"
+                                                *ngIf="courseForm.controls['dateStart'].errors['required']">This
+                                                field is required</div>
+                                        </ng-container>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body forOptionLearning">
+                                            <div class="form-group form-floating mb-3">
+                                                <div id="forOptionLearning" for="optionLearning">Select Learning Option:
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="optionLearning"
+                                                        id="zoomOption" value="0" formControlName="optionLearning">
+                                                    <label class="form-check-label" for="zoomOption">
+                                                        ZOOM
+                                                        <img src="/assets/zoom-icon.png" alt="Zoom Icon"
+                                                            class="radio-icon">
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="optionLearning"
+                                                        id="frontalOption" value="1" formControlName="optionLearning">
+                                                    <label class="form-check-label" for="frontalOption">
+                                                        FRONTAL
+                                                        <img src="/assets/frontal-icon.png" alt="Frontal Icon"
+                                                            class="radio-icon">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div formArrayName="cilibus">
+                                        <div *ngFor="let item of cilibusArray.controls; let i = index" class="mb-3">
+                                            <div class="form-group form-floating mb-3">
+                                                <input type="text" class="form-control"
+                                                    [ngClass]="{'is-invalid': courseForm.get('cilibus.' + i).touched && courseForm.get('cilibus.' + i).errors}"
+                                                    [formControlName]="i" (input)="onCilibusChange(i)" />
+                                                <label>Cilibus {{i + 1}}:</label>
+                                                <ng-container
+                                                    *ngIf="courseForm.get('cilibus.' + i).touched && courseForm.get('cilibus.' + i).errors">
+                                                    <div class="alert alert-danger"
+                                                        *ngIf="courseForm.get('cilibus.' + i).errors['required']">This
+                                                        field
+                                                        is
+                                                        required</div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-floating mb-3">
+                                        <input class="form-control"
+                                            [ngClass]="{'is-invalid': courseForm.controls['image'].touched && courseForm.controls['image'].errors}"
+                                            type="text" id="image" formControlName="image" name="image" />
+                                        <label for="image">Image URL:</label>
+                                        <ng-container
+                                            *ngIf="courseForm.controls['image'].touched && courseForm.controls['image'].errors">
+                                            <div class="alert alert-danger"
+                                                *ngIf="courseForm.controls['image'].errors['required']">
+                                                This field
+                                                is required</div>
+                                        </ng-container>
+                                    </div>
+                                    <div *ngIf="courseForm.get('image').value">
+                                        <img [src]="courseForm.get('image').value" alt="Uploaded Image">
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-success"
+                                            [disabled]="courseForm.invalid">Add
+                                            Course</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

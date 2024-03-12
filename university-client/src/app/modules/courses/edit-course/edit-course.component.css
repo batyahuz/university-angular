@@ -1,0 +1,24 @@
+#courseForm img {
+    max-width: 100%;
+    margin-bottom: 1rem;
+}
+
+select {
+    appearance: none;
+}
+
+.radio-icon {
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+}
+
+.forOptionLearning {
+    padding: 1rem 0.75rem 0rem 0.75rem;
+}
+
+#forOptionLearning {
+    color: rgba(var(--bs-body-color-rgb), .65);
+    transform: scale(.85) translateY(-0.5rem) translateX(0.15rem);
+    text-align: start;
+}

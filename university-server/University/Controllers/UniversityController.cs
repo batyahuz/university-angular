@@ -27,7 +27,7 @@ namespace University.Controllers
         private static readonly List<Lecturer> Lecturers = new()
         {
             new Lecturer("Marze", "address 2", "fdafd@gmail.com", "0987"),
-            new Lecturer("lecturer", "address 2", "fdafd@gmail.com", "2222"),
+            new Lecturer("my name is lecturer", "address 2", "fdafd@gmail.com", "2222"),
         };
 
         private static readonly List<Category> Categories = new()
@@ -93,7 +93,7 @@ namespace University.Controllers
             exist.Cilibus.Clear();
             course.Cilibus.ForEach(c => exist.Cilibus.Add(c));
             exist.NumberLessons = course.NumberLessons;
-            exist.DateStart =DateTime.Parse(course.DateStart);
+            exist.DateStart = DateTime.Parse(course.DateStart);
             exist.Image = course.Image;
             return Ok(exist);
         }
@@ -106,6 +106,18 @@ namespace University.Controllers
                 return NotFound();
             Courses.Remove(course);
             return NoContent();
+        }
+
+        [HttpGet("categories")]
+        public IActionResult GetAllCategories()
+        {
+            return Ok(Categories);
+        }
+
+        [HttpGet("lecturers")]
+        public IActionResult GetAllLecturers()
+        {
+            return Ok(Lecturers);
         }
 
         [HttpPost("login")]

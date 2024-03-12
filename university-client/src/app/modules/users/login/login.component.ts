@@ -22,12 +22,12 @@ export class LoginComponent {
   passwordInvalidValue: string;
 
   userForm: FormGroup = new FormGroup({
-    "userName": new FormControl(this.user.name, [Validators.required, Validators.minLength(4)]),
-    "password": new FormControl(this.user.password, [Validators.required, Validators.minLength(4)])
+    "userName": new FormControl(this.user.name, [Validators.required, Validators.minLength(2)]),
+    "password": new FormControl(this.user.password, [Validators.required, Validators.minLength(2)])
   })
 
 
-  login() {
+  onSubmit() {
     this._userService.login(this.userForm.value).then(() => {
       this._router.navigate(['/']);
     }).catch((error) => {
