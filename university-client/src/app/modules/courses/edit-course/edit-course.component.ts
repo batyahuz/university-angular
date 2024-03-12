@@ -122,7 +122,9 @@ export class EditCourseComponent implements OnInit {
     })
 
     this._service.getCategories().subscribe({
-      next: (data) => this.categeries = data, error: (error) => console.log(error)
+      next: (data) => {console.log(data);
+      
+        this.categeries = data}, error: (error) => console.log(error)
     })
 
     this._service.getLecturers().subscribe({

@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CourseDetailsComponent implements OnInit {
   course: Course;
 
-  
+
 
   constructor(private _service: CoursesService, private _actroute: ActivatedRoute) { }
 

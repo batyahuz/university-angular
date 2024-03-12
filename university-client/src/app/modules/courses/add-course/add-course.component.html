@@ -22,8 +22,9 @@
                                 </div>
                                 <div class="form-group form-floating mb-3">
                                     <select class="form-select" formControlName="categoryId" id="categoryId">
-                                        <option *ngFor="let category of categeries" [value]="category.id">{{
-                                            category.name }}</option>
+                                        <option *ngFor="let category of categeries" [value]="category.id">
+                                            {{category.name }}
+                                        </option>
                                     </select>
                                     <label for="categoryId">Category:</label>
                                     <ng-container

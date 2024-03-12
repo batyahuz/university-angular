@@ -32,11 +32,11 @@ namespace University.Controllers
 
         private static readonly List<Category> Categories = new()
         {
-            new Category("Camputers", ""),
-            new Category("Math", ""),
-            new Category("English", ""),
-            new Category("Gym", ""),
-            new Category("History", "")
+            new Category("Camputers", "/assest/categories-icons/01.png"),
+            new Category("Math", "/assest/categories-icons/02.png"),
+            new Category("English", "/assest/categories-icons/03.png"),
+            new Category("Gym", "/assest/categories-icons/04.png"),
+            new Category("History", "/assest/categories-icons/05.svg")
         };
 
         private static readonly List<Course> Courses = new()
