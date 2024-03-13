@@ -11,17 +11,22 @@ export class UserService {
     private readonly _dataService: DataService;
     private readonly _serviceName = "/university/";
 
-    private setSessionStorage(data: string, name: string) {
+    private setSessionStorage(data: string, name: string, isLecturer: boolean) {
         sessionStorage.setItem('userToken', 'Bearer ' + data)
         sessionStorage.setItem('userName', name)
+        if (isLecturer) {
+            sessionStorage.setItem('role', 'lecturer')
+        } else {
+            sessionStorage.setItem('role', 'user')
+        }
     }
 
-    login(user: { userName: "" }): Promise<any> {
+    login(user: { userName: "" }, isLecturer: boolean): Promise<any> {
         return new Promise((res, rej) => {
-            this._http.post(this._serviceName + `login`, user)
+            this._http.post(this._serviceName + `login?islecturer=${isLecturer}`, user)
                 .subscribe({
                     next: (data: any) => {
-                        this.setSessionStorage(data.token, user.userName)
+                        this.setSessionStorage(data.token, user.userName, isLecturer)
                         res(data)
                     }, error: (error) => {
                         rej(error)
@@ -35,7 +40,7 @@ export class UserService {
             this._http.post(this._serviceName + `signin`, user)
                 .subscribe({
                     next: (data: any) => {
-                        this.setSessionStorage(data.token, user.name)
+                        this.setSessionStorage(data.token, user.name, false)
                         res(data)
                     }, error: (error) => { rej(error) }
                 })

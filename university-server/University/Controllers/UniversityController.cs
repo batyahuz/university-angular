@@ -122,14 +122,28 @@ namespace University.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] LoginModel loginModel)
+        public IActionResult Login([FromBody] LoginModel loginModel, bool islecturer = false)
         {
-            var exist = Users.FindAll(u => u.Name == loginModel.UserName);
-            if (exist is null || exist.Count == 0)
-                return Unauthorized(new { Error = "user" });
-            var correct = exist.Find(u => u.Password == loginModel.Password);
-            if (correct is null)
-                return Unauthorized(new { Error = "password" });
+            if (islecturer)
+            {
+                var exist = Lecturers.FindAll(l => l.Name == loginModel.UserName);
+                if (exist is null || exist.Count == 0)
+                    return Unauthorized(new { Error = "user" });
+                
+                var correct = exist.Find(l => l.Password == loginModel.Password);
+                if (correct is null)
+                    return Unauthorized(new { Error = "password" });
+            }
+            else
+            {
+                var exist = Users.FindAll(u => u.Name == loginModel.UserName);
+                if (exist is null || exist.Count == 0)
+                    return Unauthorized(new { Error = "user" });
+                
+                var correct = exist.Find(u => u.Password == loginModel.Password);
+                if (correct is null)
+                    return Unauthorized(new { Error = "password" });
+            }
 
             var tokenString = MakeToken(loginModel, _configuration);
             return Ok(new { Token = tokenString });

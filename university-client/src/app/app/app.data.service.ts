@@ -8,11 +8,17 @@ export class DataService {
 
     constructor() { }
 
-    getDataFromSessionStorage(): any {
-        return {
-            name: sessionStorage.getItem('userName'),
-            role: sessionStorage.getItem('role')
-        };
+
+    getUserName(): string {
+        return sessionStorage.getItem('userName')
+    }
+
+    getUserRole(): string {
+        return sessionStorage.getItem('role')
+    }
+
+    isConnected(): boolean {
+        return sessionStorage.getItem('userToken') != null
     }
 
     updateDataInLocalStorage(): void {

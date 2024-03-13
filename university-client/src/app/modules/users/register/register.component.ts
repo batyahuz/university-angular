@@ -21,22 +21,18 @@ export class RegisterComponent implements OnInit {
   })
 
   onSubmit() {
+    if (this.userForm.invalid) {
+      return;
+    }
+
     this._userService.signin(this.userForm.value).then(() => {
       this._router.navigate(['/course/all']);
       Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: 'Perfect',
-        text: 'Course has benn saved successfuly :)',
-        showConfirmButton: false,
-        timer: 2000
-      });
+        position: "top-end", icon: "success", title: 'Perfect',
+        text: 'Course has been saved successfuly :)', showConfirmButton: false, timer: 2000
+      })
     }).catch((error) => {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: error.error.error
-      });
+      Swal.fire({ icon: "error", title: "Oops...", text: error.error.error })
     })
   }
 

@@ -1,0 +1,30 @@
+img.card-img-top {
+    max-height: 10rem;
+    width: fit-content;
+    margin: auto;
+}
+
+.card {
+    text-align: center;
+}
+
+.align-start {
+    text-align: start;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.inline {
+    display: inline;
+}
+
+.card-text {
+    display: flex;
+    justify-content: space-between;
+}
+
+.margin-top {
+    margin-top: 3rem;
+}

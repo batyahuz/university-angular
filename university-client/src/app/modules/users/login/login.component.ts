@@ -28,27 +28,30 @@ export class LoginComponent {
   })
 
   isLecturer: boolean = false;
+  courseName: string = '';
   setIsLecturer(): void {
+    if (this.isLecturer)
+      this.userForm.removeControl("courseName")
+    else
+      this.userForm.addControl("courseName", new FormControl(this.courseName, [Validators.required]))
     this.isLecturer = !this.isLecturer;
   }
 
   onSubmit() {
-    this._userService.login(this.userForm.value).then(() => {
+    console.log(this.courseName);
+
+    if (this.userForm.invalid) {
+      return;
+    }
+
+    this._userService.login(this.userForm.value, this.isLecturer).then(() => {
       this._router.navigate(['/course/all']);
     }).catch((error) => {
       if (error.error.error === 'user') {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "user name is invalid"
-        });
-        this._router.navigate(['/user/register'], { state: { name: this.userForm.controls['userName'].value } });
+        Swal.fire({ icon: "error", title: "Oops...", text: "user name is not valid" })
+        this._router.navigate(['/user/register'], { state: { name: this.userForm.controls['userName'].value } })
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "password in not valid"
-        });
+        Swal.fire({ icon: "error", title: "Oops...", text: "password is not valid" })
       }
     })
   }

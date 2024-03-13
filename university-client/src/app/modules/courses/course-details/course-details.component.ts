@@ -16,12 +16,9 @@ import Swal from 'sweetalert2';
 export class CourseDetailsComponent implements OnInit {
 
   course: Course = new Course();
-  // learningOptionIcon: LearningOptionIconPipe;
   isLecturer: boolean;
   category: Category;
   lecturer: Lecturer;
-
-
 
   constructor(private _service: CoursesService, private _actroute: ActivatedRoute, private learningOptionIcon: LearningOptionIconPipe) { }
 
@@ -30,17 +27,10 @@ export class CourseDetailsComponent implements OnInit {
 
     var id: number;
     this._actroute.params.subscribe(params => id = parseInt(params['id']))
-    this._service.getCourseById(id)
-      .subscribe({
-        next: (data) =>
-          this.course = data,
-        error: () =>
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "can't connect to server"
-          })
-      })
+    this._service.getCourseById(id).subscribe({
+      next: (data) => this.course = data,
+      error: () => Swal.fire({ icon: "error", title: "Oops...", text: "can't connect to server" })
+    })
 
     this._service.getCategories().subscribe((data) => this.category = data.find(c => c.id == this.course.categoryId))
 

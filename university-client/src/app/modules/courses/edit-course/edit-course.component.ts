@@ -15,7 +15,7 @@ import { Lecturer } from '../models/lecturer.model';
 })
 export class EditCourseComponent implements OnInit {
   id: number;
-  courseForm: FormGroup;
+  courseForm: FormGroup = new FormGroup({});
   categeries: Category[];
   lecturers: Lecturer[];
   stringDate: string;
@@ -62,6 +62,12 @@ export class EditCourseComponent implements OnInit {
     }
   }
 
+  getImage(url: string): string {
+    console.log('location', window.location.pathname);
+
+    return (url[1] == ':' ? '' : '') + url
+  }
+
   onSubmit(): void {
     if (this.courseForm.invalid) {
       return;
@@ -79,20 +85,12 @@ export class EditCourseComponent implements OnInit {
     this._service.editCouse(this.id, this.courseForm.value).subscribe({
       next: (data) => {
         Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: 'Perfect',
-          text: 'Course has benn saved successfuly :)',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this._router.navigate(['/course/all']);
-      }, error: (error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong! course is not valid"
-        });
+          position: "top-end", icon: "success", title: 'Perfect',
+          text: 'Course has been changed successfuly :)', showConfirmButton: false, timer: 2000
+        })
+        this._router.navigate(['/course/all'])
+      }, error: () => {
+        Swal.fire({ icon: "error", title: "Oops...", text: "Something went wrong! course is not valid" })
       }
     })
   }
@@ -110,33 +108,19 @@ export class EditCourseComponent implements OnInit {
         this.course = data;
         this.addCilibus();
       }, error: () => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "There is no Course with such a id number"
-        });
+        Swal.fire({ icon: "error", title: "Oops...", text: "There is no Course with such a id number" })
         this._router.navigate(['/course/all'])
       }
     })
 
     this._service.getCategories().subscribe({
-      next: (data) => {
-        this.categeries = data
-      }, error: (error) =>
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "can't connect to server"
-        })
+      next: (data) => this.categeries = data,
+      error: () => Swal.fire({ icon: "error", title: "Oops...", text: "you are not logged in. enter ->" })
     })
 
     this._service.getLecturers().subscribe({
-      next: (data) => this.lecturers = data, error: (error) => 
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "can't connect to server"
-      })
+      next: (data) => this.lecturers = data,
+      error: () => Swal.fire({ icon: "error", title: "Oops...", text: "you are not logged in. enter ->" })
     })
   }
 }

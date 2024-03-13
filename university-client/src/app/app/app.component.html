@@ -1,39 +1,36 @@
 <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand turquoise" href="#">University</a>
-            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button> -->
-            <div class="" id="navbarNav">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/course/all">All Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/course/add">Add Courses</a>
-                    </li>
-                    <!-- <ng-container *ngIf="data == undefined || data.name == undefined"> -->
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/user/login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/user/register">Register</a>
-                        </li>
-                    <!-- </ng-container> -->
-                    <!-- <ng-container *ngIf="data != undefined && data.name != undefined"> -->
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/">Log Out</a>
-                        </li>
-                    <!-- </ng-container> -->
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand turquoise">{{isUser? 'user: ' + userName : 'University'}}</a>
+      <div class="" id="navbarNav">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/course/all">All Courses</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/course/add">Add Courses</a>
+          </li>
+          <ng-container *ngIf="!isUser">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/user/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/user/register">Register</a>
+            </li>
+          </ng-container>
+          <ng-container *ngIf="isUser">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/" (click)="logOut()">Log Out</a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
         <a class="navbar-brand" routerLink="#">Your Brand</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"

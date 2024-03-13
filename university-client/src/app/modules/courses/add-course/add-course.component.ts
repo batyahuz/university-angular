@@ -23,7 +23,7 @@ export class AddCourseComponent implements OnInit {
   courseForm: FormGroup = new FormGroup({
     name: new FormControl(this.course.name, [Validators.required,]),
     categoryId: new FormControl(this.course.categoryId, [Validators.required, Validators.min(1)]),
-    numberLessons: new FormControl(this.course.numberLessons, [Validators.required,Validators.min(1)]),
+    numberLessons: new FormControl(this.course.numberLessons, [Validators.required, Validators.min(1)]),
     dateStart: new FormControl(this.course.dateStart, [Validators.required]),
     optionLearning: new FormControl(this.course.optionLearning, [Validators.required]),
     lecturerId: new FormControl(this.course.lecturerId, [Validators.required, Validators.min(1)]),
@@ -65,20 +65,12 @@ export class AddCourseComponent implements OnInit {
     this._service.addCourse(this.courseForm.value).subscribe({
       next: (data) => {
         Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: 'Perfect',
-          text: 'Course has benn saved successfuly :)',
-          showConfirmButton: false,
-          timer: 2000
+          position: "top-end", icon: "success", title: 'Perfect',
+          text: 'Course has been saved successfuly :)', showConfirmButton: false, timer: 2000
         })
         this._router.navigate(['/course/all']);
       }, error: (error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong! course is not valid"
-        });
+        Swal.fire({ icon: "error", title: "Oops...", text: "Something went wrong! course is not valid" })
       }
     })
   }
@@ -90,19 +82,16 @@ export class AddCourseComponent implements OnInit {
     this.addCilibus()
 
     this._service.getCategories().subscribe({
-      next: (data) => this.categeries = data, error: (error) => Swal.fire({
+      next: (data) => this.categeries = data, error: () => Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "can't connect to server"
+        text: "you are not logged in. enter ->"
       })
     })
 
     this._service.getLecturers().subscribe({
-      next: (data) => this.lecturers = data, error: (error) => Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "can't connect to server"
-      })
+      next: (data) => this.lecturers = data,
+      error: () => Swal.fire({ icon: "error", title: "Oops...", text: "you are not logged in. enter ->" })
     })
   }
 }

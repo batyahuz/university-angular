@@ -1,49 +1,44 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Course, learningOptions } from "./models/course.model";
-import { Observable } from "rxjs";
+import { Observable, filter, map } from "rxjs";
 import { Category } from "./models/category.model";
 import { Router } from "@angular/router";
 import { Lecturer } from "./models/lecturer.model";
 
 @Injectable()
 export class CoursesService {
-    // private _courses: Course[] = [
-    //     {
-    //         id: 1, name: "C#", categoryId: 1, numberLessons: 50, dataStart: new Date("2024-02-02"),
-    //         optionLearning: learningOptions.FRONTAL, lectureId: 1, image: ""
-    //     },
-    //     {
-    //         id: 2, name: "Math", categoryId: 1, numberLessons: 50, dataStart: new Date("2024-02-01"),
-    //         optionLearning: learningOptions.FRONTAL, lectureId: 1, image: ""
-    //     }
-    // ];
-
-    // private _categories: Category[] = [
-
-    //     { id: 1, name: "Camputers", icon: "" },
-    //     { id: 2, name: "Math", icon: "" },
-    //     { id: 3, name: "English", icon: "" },
-    //     { id: 4, name: "Gym", icon: "" },
-    //     { id: 5, name: "History", icon: "" }
-    // ];
 
     private readonly _serviceName = "/university";
 
+    isConnected(): boolean {
+        return sessionStorage.getItem('userToken') != null
+    }
+
+    isLecturer(): boolean {
+        return sessionStorage.getItem('role') != 'lecturer'
+    }
+
     navigateIfNotLoggedIn(): void {
-        if (!sessionStorage.getItem('userToken'))
+        if (!this.isConnected())
             this._router.navigate(['/']);
     }
 
-    getCourses(): Promise<Course[]> {
-        return new Promise((res, rej) => {
-            this._http.get<Course[]>(this._serviceName + `/courses`)
-                .subscribe({ next: (data) => res(data), error: (error) => rej(error) })
-        })
+    getCourses(): Observable<Course[]> {
+        return this._http.get<Course[]>(this._serviceName + `/courses`)
     }
 
     getCourseById(id: number): Observable<Course> {
         return this._http.get<Course>(this._serviceName + `/courses/${id}`)
+    }
+
+    getCoursesByFilters(filter: { name: string, category: number, option: number }): Observable<Course[]> {
+        return this.getCourses().pipe(map(courses =>
+            courses.filter(c =>
+                filter.name == null || c.name.toLowerCase().includes(filter.name.toLowerCase()) &&
+                filter.category == null || c.categoryId == filter.category &&
+                filter.option == null || c.optionLearning == filter.option)
+        ))
     }
 
     addCourse(course: Course): Observable<Course> {
