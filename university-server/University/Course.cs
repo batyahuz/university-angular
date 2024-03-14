@@ -17,14 +17,14 @@ namespace University
         public int LecturerId { get; set; }
         public string Image { get; set; }
 
-        public Course(string name, int categoryId, int numberLessons, DateTime dateStart, List<string> cilibus, LearningOptions optionLearning, int lecturerId, string image)
+        public Course(string name, int categoryId, int numberLessons, DateTime dateStart, LearningOptions optionLearning, int lecturerId, string image, params string[] cilibus)
         {
             Id = ++_id;
             Name = name;
             CategoryId = categoryId;
             NumberLessons = numberLessons;
             DateStart = dateStart;
-            Cilibus = cilibus;
+            Cilibus = cilibus.ToList();
             OptionLearning = optionLearning;
             LecturerId = lecturerId;
             Image = image;

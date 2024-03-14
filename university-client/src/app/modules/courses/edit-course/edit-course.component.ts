@@ -63,8 +63,6 @@ export class EditCourseComponent implements OnInit {
   }
 
   getImage(url: string): string {
-    console.log('location', window.location.pathname);
-
     return (url[1] == ':' ? '' : '') + url
   }
 

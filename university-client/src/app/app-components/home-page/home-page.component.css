@@ -1,0 +1,19 @@
+.card{
+    margin: 1rem 3rem;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.under-line{
+    text-decoration: underline solid 0.1rem #30aa9e;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+li{
+    margin-bottom: 1rem;
+}

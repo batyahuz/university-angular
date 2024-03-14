@@ -18,16 +18,16 @@ namespace University.Controllers
     {
         private static readonly List<User> Users = new()
         {
-            new User("Malki", "Menachem 18", "malki@gmail.com", "123"),
+            new User("Yael", "Menachem 18", "yael@gmail.com", "123"),
             new User("Batya", "Ami 9", "batya@gmail.com", "321"),
-            new User("q", "Menachem 18", "malki@gmail.com", "q"),
-            new User("w", "Menachem 18", "malki@gmail.com", "w")
+            new User("Dvora", "R Akiva 100", "q@q.org", "dvq@q"),
+            new User("Shlomo", "Ba'al Hetanya 14", "05567@gmail.com", "sh05")
         };
 
         private static readonly List<Lecturer> Lecturers = new()
         {
-            new Lecturer("Marze", "address 2", "fdafd@gmail.com", "0987"),
-            new Lecturer("my name is lecturer", "address 2", "fdafd@gmail.com", "2222"),
+            new Lecturer("Dr Cohen", "Lim 3", "ch@un.ac.il", "0987"),
+            new Lecturer("Tami", "Ben Gurion 57", "tt8802@gmail.com", "8802"),
         };
 
         private static readonly List<Category> Categories = new()
@@ -41,14 +41,14 @@ namespace University.Controllers
 
         private static readonly List<Course> Courses = new()
         {
-            new Course("C#", 1, 50, new DateTime(2024,03,14),
-                new List<string>(){"OOP", "string", "variables"}, LearningOptions.FRONTAL, 1, "assets/courses-icons/csharp.svg"),
-            new Course("Java", 1, 50, new DateTime(2024,01,14),
-                            new List<string>(){"Server", "string", "variables"}, LearningOptions.ZOOM, 2, "assets/courses-icons/java.png"),
-            new Course("Graghs", 2, 50, new DateTime(2024,05,14),
-                            new List<string>(){"numbers", "pivots"}, LearningOptions.FRONTAL, 2, "assets/courses-icons/graphs.png"),
-            new Course("Dancing", 4, 50, new DateTime(2025,02,09),
-                            new List<string>(){"Songs", "Musics"}, LearningOptions.ZOOM, 1, "assets/courses-icons/dancing.png"),
+            new Course("C#", 1, 100, new DateTime(2024, 03, 14), LearningOptions.FRONTAL, 1,
+                "assets/courses-icons/csharp.svg", "OOP", "string", "variables"),
+            new Course("Java", 1, 50, new DateTime(2024, 01, 18), LearningOptions.ZOOM, 2,
+                "assets/courses-icons/java.png", "Server", "string", "Spring Framework"),
+            new Course("Graghs", 2, 70, new DateTime(2025, 05, 09), LearningOptions.FRONTAL, 2,
+                "assets/courses-icons/graphs.png", "numbers", "pivots"),
+            new Course("Dancing", 4, 130, new DateTime(2025, 10, 12), LearningOptions.ZOOM, 1,
+                "assets/courses-icons/dancing.png", "Songs", "Musics")
         };
 
         private readonly IConfiguration _configuration;
@@ -129,7 +129,7 @@ namespace University.Controllers
                 var exist = Lecturers.FindAll(l => l.Name == loginModel.UserName);
                 if (exist is null || exist.Count == 0)
                     return Unauthorized(new { Error = "user" });
-                
+
                 var correct = exist.Find(l => l.Password == loginModel.Password);
                 if (correct is null)
                     return Unauthorized(new { Error = "password" });
@@ -139,7 +139,7 @@ namespace University.Controllers
                 var exist = Users.FindAll(u => u.Name == loginModel.UserName);
                 if (exist is null || exist.Count == 0)
                     return Unauthorized(new { Error = "user" });
-                
+
                 var correct = exist.Find(u => u.Password == loginModel.Password);
                 if (correct is null)
                     return Unauthorized(new { Error = "password" });

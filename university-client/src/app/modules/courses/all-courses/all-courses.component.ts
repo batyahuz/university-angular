@@ -23,9 +23,9 @@ export class AllCoursesComponent implements OnInit {
   isInstructor: boolean = true;
   optionLearning: string;
 
-  filterByName: string;
-  filterByCategoryId: number;
-  filterByOption: number;
+  filterByName: string | null = null;
+  filterByCategoryId: number | null = null;
+  filterByOption: number | null = null;
   searchTerms = new Subject<{ name: string, category: number, option: number }>();
 
   userIsLecturer(): boolean {
@@ -47,9 +47,11 @@ export class AllCoursesComponent implements OnInit {
 
   search(name: string, value: string) {
     switch (name) {
-      case 'name': this.filterByName = value; break;
-      case 'category': this.filterByCategoryId = value == '0' ? null : parseInt(value); break;
-      case 'option': this.filterByOption = value == '0' ? null : parseInt(value); break;
+      case 'name': this.filterByName = value == '' ? null : value
+        break;
+      case 'category': this.filterByCategoryId = (value == '0' ? null : parseInt(value))
+        break;
+      case 'option': this.filterByOption = (value == '0' ? null : parseInt(value))
     }
     this.searchTerms.next({
       name: this.filterByName, category: this.filterByCategoryId, option: this.filterByOption
@@ -62,8 +64,12 @@ export class AllCoursesComponent implements OnInit {
   ngOnInit(): void {
     this._service.navigateIfNotLoggedIn()
 
-    this.searchTerms.pipe(debounceTime(1000), distinctUntilChanged(),
-      switchMap((res) => this._service.getCoursesByFilters(res))).subscribe((res) => { this.courses = res; });
+    this.searchTerms.pipe(
+      debounceTime(1000),
+      distinctUntilChanged(),
+      switchMap((res) => this._service.getCoursesByFilters(res))
+    )
+      .subscribe((res) => this.courses = res)
 
     this._service.getCourses().subscribe({
       next: (data) => this.courses = data,

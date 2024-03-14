@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { AppComponent } from "./app.component";
+import { AppComponent } from "./app/app.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { CoursesModule } from "../modules/courses/courses.module";
 import { RouterModule } from "@angular/router";

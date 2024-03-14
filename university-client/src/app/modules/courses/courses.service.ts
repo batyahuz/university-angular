@@ -16,7 +16,7 @@ export class CoursesService {
     }
 
     isLecturer(): boolean {
-        return sessionStorage.getItem('role') != 'lecturer'
+        return sessionStorage.getItem('role') == 'lecturer'
     }
 
     navigateIfNotLoggedIn(): void {
@@ -35,9 +35,9 @@ export class CoursesService {
     getCoursesByFilters(filter: { name: string, category: number, option: number }): Observable<Course[]> {
         return this.getCourses().pipe(map(courses =>
             courses.filter(c =>
-                filter.name == null || c.name.toLowerCase().includes(filter.name.toLowerCase()) &&
-                filter.category == null || c.categoryId == filter.category &&
-                filter.option == null || c.optionLearning == filter.option)
+                (filter.name == null || c.name.toLowerCase().includes(filter.name.toLowerCase())) &&
+                (filter.category == null || c.categoryId == filter.category) &&
+                (filter.option == null || c.optionLearning == filter.option))
         ))
     }
 

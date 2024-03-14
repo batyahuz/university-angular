@@ -13,11 +13,9 @@
   <div class="input-group form-floating">
     <select class="form-select" id="categoryId" #seachByCategory (change)="search('category', seachByCategory.value)">
       <option [value]="0">None</option>
-      <option *ngFor="let category of categories" [value]="category.id">
-        {{category.name }}
-      </option>
+      <option *ngFor="let category of categories" [value]="category.id"> {{category.name }} </option>
     </select>
-    <label for="categoryId">Category:</label>
+    <label for="categoryId">Search By Category:</label>
   </div>
   <div class="input-group form-floating">
     <select class="form-select" id="option" #searchByOption (change)="search('option', searchByOption.value)">
@@ -25,7 +23,7 @@
       <option [value]="1">ZOOM</option>
       <option [value]="2">FRONTAL</option>
     </select>
-    <label for="option">Option Learning:</label>
+    <label for="option">Search By Option Learning:</label>
   </div>
   <div class="row">
     <div class="col-md-6" *ngFor="let course of courses">

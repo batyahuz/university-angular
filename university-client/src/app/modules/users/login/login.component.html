@@ -4,16 +4,18 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center turquoise">Login</h5>
+                        <h5 class="card-title text-center turquoise">
+                            {{isLecturer?'Lecturer':'User'}} Login
+                        </h5>
                         <ng-container class="card" *ngIf="user">
                             <div class="card-body">
                                 <div class="form-group form-floating mb-3">
                                     <input class="form-control"
-                                        [ngClass]="{'is-invalid':userForm.controls['userName'].touched && userForm.controls['userName'].errors}"
+                                        [ngClass]="{'is-invalid':userForm.controls['userName']?.touched && userForm.controls['userName'].errors}"
                                         type="text" id="userName" formControlName="userName" name="userName" />
                                     <label for="userName">{{isLecturer?'lecturer':'user'}} name:</label>
                                     <ng-container
-                                        *ngIf="userForm.controls['userName'].touched && userForm.controls['userName'].errors">
+                                        *ngIf="userForm.controls['userName']?.touched && userForm.controls['userName'].errors">
                                         <div class="alert alert-danger"
                                             *ngIf="userForm.controls['userName'].errors['required']">
                                             This field is required</div>
@@ -24,11 +26,11 @@
                                 </div>
                                 <div class="form-group form-floating mb-3">
                                     <input class="form-control"
-                                        [ngClass]="{'is-invalid':userForm.controls['password'].touched && userForm.controls['password'].errors}"
+                                        [ngClass]="{'is-invalid':userForm.controls['password']?.touched && userForm.controls['password'].errors}"
                                         type="text" id="password" formControlName="password" name="password" />
                                     <label for="password">{{isLecturer?'lecturer':'user'}} password:</label>
                                     <ng-container
-                                        *ngIf="userForm.controls['password'].touched && userForm.controls['password'].errors">
+                                        *ngIf="userForm.controls['password']?.touched && userForm.controls['password'].errors">
                                         <div class="alert alert-danger"
                                             *ngIf="userForm.controls['password'].errors['required']">
                                             This field is required</div>
@@ -39,11 +41,11 @@
                                 </div>
                                 <div *ngIf="isLecturer" class="form-group form-floating mb-3">
                                     <input class="form-control"
-                                    [ngClass]="{'is-invalid':userForm.controls['courseName'].touched && userForm.controls['courseName'].errors}"
-                                    type="text" id="courseName" formControlName="courseName" name="courseName" />
+                                        [ngClass]="{'is-invalid':userForm.controls['courseName']?.touched && userForm.controls['courseName'].errors}"
+                                        type="text" id="courseName" formControlName="courseName" name="courseName" />
                                     <label for="courseName">coure name:</label>
                                     <ng-container
-                                        *ngIf="userForm.controls['courseName'].touched && userForm.controls['courseName'].errors">
+                                        *ngIf="userForm.controls['courseName']?.touched && userForm.controls['courseName'].errors">
                                         <div class="alert alert-danger"
                                             *ngIf="userForm.controls['courseName'].errors['required']">
                                             This field is required</div>

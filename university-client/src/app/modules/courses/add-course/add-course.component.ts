@@ -79,6 +79,10 @@ export class AddCourseComponent implements OnInit {
 
   ngOnInit(): void {
     this._service.navigateIfNotLoggedIn()
+    if (!this._service.isLecturer()) {
+      this._router.navigate(['/'])
+    }
+
     this.addCilibus()
 
     this._service.getCategories().subscribe({
