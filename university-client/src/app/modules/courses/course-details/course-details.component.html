@@ -40,9 +40,7 @@
                         </div>
                         <p class="inline">{{ lecturer?.name }}</p>
                     </div>
-                    <!-- <p class="card-text">Cilibus: {{ course.cilibus.join(', ') }}</p> -->
                 </div>
-                <!-- <div class="card" style="width: 18rem;"> -->
                 <div>
                     <h6 class="card-header turquoise"> Cilibus: </h6>
                     <ul *ngFor="let c of course.cilibus" class="list-group list-group-flush">
@@ -51,7 +49,7 @@
                 </div>
                 <!-- </div> -->
                 <div class="card-body">
-                    <button *ngIf="isLecturer" href="#" class="btn btn-success">Update Course Details</button>
+                    <button *ngIf="isLecturer" (click)="editCourse()" class="btn btn-success">Update Course Details</button>
                 </div>
                 <!-- </div> -->
             </div>

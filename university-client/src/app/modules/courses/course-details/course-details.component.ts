@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CoursesService } from '../courses.service';
 import { Course } from '../models/course.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from '../models/category.model';
 import { Lecturer } from '../models/lecturer.model';
 import { LearningOptionIconPipe } from '../learning.option.icon.pipe'
@@ -20,7 +20,14 @@ export class CourseDetailsComponent implements OnInit {
   category: Category;
   lecturer: Lecturer;
 
-  constructor(private _service: CoursesService, private _actroute: ActivatedRoute, private learningOptionIcon: LearningOptionIconPipe) { }
+  editCourse(){
+    this._router.navigate(['/course/edit/'+this.course.id])
+  }
+
+  constructor(private _service: CoursesService,
+    private learningOptionIcon: LearningOptionIconPipe,
+    private _router: Router,
+    private _actroute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this._service.navigateIfNotLoggedIn()
